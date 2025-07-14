@@ -11,6 +11,7 @@ import {
   OptionButton,
   OptionsContainer
 } from '../styled/StyledComponents';
+import ProgressBar from './ProgressBar';
 
 // Full-screen carousel styled components
 const FullScreenWrapper = styled.div`
@@ -34,7 +35,7 @@ const MainContent = styled.main`
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-  padding-top: 5rem;
+  padding-top: 0;
   text-align: center;
   gap: 1rem;
 `;
@@ -743,6 +744,10 @@ const ChatBot: React.FC = () => {
           <div style={{ fontSize: '0.875rem', color: '#717171', padding: "0.5rem" }}>Site language: English ▾</div>
         </HeaderBar>
 
+        {currentStep >= 2 && currentStep <= 8 && (
+          <ProgressBar currentStep={currentStep - 1} totalSteps={7} />
+        )}
+
         <MainContent>
             {/* <Title style={{ marginBottom: '1.5rem', fontSize: '1.5rem', fontWeight: 600, color: "#000" }} className='font-inter'>{currentQuestionMessage.content}</Title> */}
             
@@ -762,6 +767,10 @@ const ChatBot: React.FC = () => {
                 <p style={{
                   fontSize: "1.2rem",
                   fontWeight: 500,
+                  width: "119px",
+                  height: "15px",
+                  borderRadius: "20px",
+                  opacity: 1,
                 }}>
                   {currentQuestionMessage.content}
                 </p>
