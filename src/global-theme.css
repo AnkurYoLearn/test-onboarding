@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap');
+
+body, html, #root {
+  font-family: 'Poppins', 'Nunito', 'Inter', Arial, sans-serif;
+  background: #f0fdff;
+  color: #333;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
