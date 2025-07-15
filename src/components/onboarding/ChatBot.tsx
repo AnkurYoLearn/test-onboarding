@@ -241,6 +241,20 @@ const ChatBot: React.FC = () => {
   const scrollToMessagesBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+  useEffect(() => {
+    if (
+      inputType === "select" &&
+      selectedOptions.length === 1 &&
+      !selectedOptions.includes("Others (please specify)")
+    ) {
+      setWaitingForResponse(true);
+      const timer = setTimeout(() => {
+        handleNext();
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [selectedOptions, inputType, setWaitingForResponse]);
 
   const checkExistingOnboarding = async () => {
     try {
@@ -908,6 +922,8 @@ const ChatBot: React.FC = () => {
           }
         });
       } else {
+        if (selectedOptions.includes(option)) return;
+        if (selectedOptions[0] === option) return;
         setSelectedOptions([option]);
       }
     }

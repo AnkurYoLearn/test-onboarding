@@ -3,15 +3,15 @@ import styled from "styled-components";
 
 const ProgressBarWrapper = styled.div`
   display: flex;
-  justify-content: center;
   gap: 8px;
+  width: 100%;
+  max-width: 600px;
   padding: 0;
 `;
 
 const ProgressSegment = styled.div<{ isActive: boolean }>`
   height: 8px;
   flex: 1;
-  min-width: 80px;
   background: ${({ isActive }) =>
     isActive
       ? "linear-gradient(90deg, #41CED3 0%, #419CDA 71.92%, #4177DF 100%)"
