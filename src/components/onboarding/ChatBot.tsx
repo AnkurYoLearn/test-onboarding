@@ -60,6 +60,8 @@ const ChatBot: React.FC = () => {
     setLoading,
     setUserType,
     prevStep,
+    goToStep,
+    goToStep0,
   } = useOnboarding();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentInput, setCurrentInput] = useState("");
@@ -897,6 +899,25 @@ const ChatBot: React.FC = () => {
         break;
     }
   };
+  const handleBack = () => {
+    if (currentStep > 1) {
+      prevStep();
+      setMessages((prevMessages) => {
+        const lastQuestionIndex = prevMessages
+          .map((m) => m.type)
+          .lastIndexOf("question");
+        if (lastQuestionIndex > 0) {
+          const lastAnswerIndex = prevMessages
+            .map((m) => m.type)
+            .lastIndexOf("answer", lastQuestionIndex - 1);
+          if (lastAnswerIndex !== -1) {
+            return prevMessages.slice(0, lastAnswerIndex);
+          }
+        }
+        return prevMessages.slice(0, -2);
+      });
+    }
+  };
   const handleOptionSelect = (option: string) => {
     if (option === "Others (please specify)") {
       setShowOthersInput(true);
@@ -1004,17 +1025,19 @@ const ChatBot: React.FC = () => {
               marginBlock: "1rem",
             }}
           >
-            <button
-              onClick={prevStep}
-              style={{
-                background: "transparent",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
-              }}
-            >
-              <ArrowLeft size={22} color="rgba(128, 128, 128, 0.55)" />
-            </button>
+            {currentStep > 2 && (
+              <button
+                onClick={handleBack}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                }}
+              >
+                <ArrowLeft size={22} color="rgba(128, 128, 128, 0.55)" />
+              </button>
+            )}
             <ProgressBar currentStep={currentStep - 1} totalSteps={7} />
           </div>
         )}
@@ -1150,7 +1173,11 @@ const ChatBot: React.FC = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                cursor: currentStep <= 2 ? "not-allowed" : "pointer",
+                opacity: currentStep <= 2 ? 0.5 : 1,
               }}
+              onClick={handleBack}
+              disabled={currentStep <= 2}
             >
               <ChevronUp strokeWidth={2} size={18} />
             </button>
