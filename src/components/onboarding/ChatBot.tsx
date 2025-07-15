@@ -83,9 +83,17 @@ const ChatBot: React.FC = () => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isInitializedRef = useRef(false);
+  useEffect(() => {
+    if (
+      inputType === "select" &&
+      selectedOptions.length === 1 &&
+      !selectedOptions.includes("Others (please specify)")
+    ) {
+      handleNext();
+    }
+  }, [selectedOptions]);
   useEffect(
     () => {
-      // Always set currentUserType from URL params if present
       const urlParams = new URLSearchParams(window.location.search);
       const userTypeParam = urlParams.get("user_type");
       if (userTypeParam === "student" || userTypeParam === "teacher") {
@@ -1022,6 +1030,7 @@ const ChatBot: React.FC = () => {
                   border: "none",
                   cursor: "pointer",
                   padding: 0,
+                  transform: "translateY(2px)",
                 }}
               >
                 <ArrowLeft size={22} color="rgba(128, 128, 128, 0.55)" />
